@@ -10,6 +10,7 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -468,6 +469,16 @@
               <FileName>RF24_HAL.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\Library\RF24_HAL.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Function.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Library\Function.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>uart.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Library\uart.cpp</FilePath>
             </File>
           </Files>
         </Group>

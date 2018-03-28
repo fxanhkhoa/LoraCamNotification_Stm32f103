@@ -9,17 +9,13 @@
 ".\objects\stm32f10x_rcc.o"
 ".\objects\stm32f10x_tim.o"
 ".\objects\stm32f10x_usart.o"
+".\objects\stm32f10x_spi.o"
 ".\objects\startup_stm32f10x_md.o"
-".\objects\stm32f10x_gpio_oop.o"
-".\objects\stm32f10x_tim_oop.o"
-".\objects\stm32f10x_i2c_oop.o"
-".\objects\stm32f10x_exti_oop.o"
-".\objects\misc_oop.o"
-".\objects\mpu6050_oop.o"
-".\objects\mpu6050.o"
-".\objects\kalman.o"
-".\objects\hmc5883l.o"
+".\objects\rf24.o"
+".\objects\rf24_hal.o"
+".\objects\function.o"
+".\objects\uart.o"
 --strict --scatter ".\Objects\Stm32f103c8.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\Stm32f103c8.map" -o .\Objects\Stm32f103c8.axf

@@ -5,7 +5,8 @@
 extern "C" {
 #endif
 
-
+#include "stm32f10x.h"
+#include "Function.h"
 	
 #ifdef __cplusplus
 }

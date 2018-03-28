@@ -2,88 +2,64 @@
 <body>
 <pre>
 <h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.24.2.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: bui Anh Khoa, abc, LIC=ZB4Y8-3T5U3-PA4DH-W94SG-1DVAT-6DK30
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.24.1
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.24.1
+Dialog DLL:      DARMSTM.DLL V1.68.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
+Dialog DLL:      TARMSTM.DLL V1.66.0.0
+ 
 <h2>Project:</h2>
-C:\Users\Anh Khoa\Documents\arm\Stm32_f103\Stm32f103c8.uvprojx
-Project File Date:  02/11/2017
+C:\Users\Anh Khoa\Documents\arm\LoraCamNotification_Stm32f103\Stm32f103c8.uvprojx
+Project File Date:  03/28/2018
 
 <h2>Output:</h2>
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
+compiling misc.c...
+compiling stm32f10x_rcc.c...
 compiling main.cpp...
-main.cpp(216): warning:  #111-D: statement is unreachable
-                                k = 0;
-main.cpp(338): warning:  #177-D: variable "delta_yaw" was declared but never referenced
-                                float delta_yaw = yaw - Central_Yaw;
-main.cpp(213): warning:  #546-D: transfer of control bypasses initialization of:
-            variable "timerValue" (declared at line 302)
-            variable "pitch" (declared at line 336)
-            variable "yaw" (declared at line 336)
-            variable "delta_pitch" (declared at line 337)
-            variable "delta_yaw" (declared at line 338)
-            variable "pitch_percentage" (declared at line 339)
-            variable "yaw_percentage" (declared at line 340)
-                switch (jump_switch)
-                ^
-main.cpp(192): warning:  #177-D: variable "Distance_Yaw" was declared but never referenced
-                                                Distance_Yaw    = 50; 
-main.cpp: 4 warnings, 0 errors
+compiling stm32f10x_exti.c...
+compiling stm32f10x_i2c.c...
 compiling core_cm3.c...
 compiling system_stm32f10x.c...
-compiling misc.c...
-compiling stm32f10x_exti.c...
 compiling stm32f10x_gpio.c...
-compiling stm32f10x_i2c.c...
-compiling stm32f10x_rcc.c...
-compiling stm32f10x_tim.c...
-compiling stm32f10x_usart.c...
 assembling startup_stm32f10x_md.s...
-compiling stm32f10x_gpio_oop.cpp...
-compiling stm32f10x_tim_oop.cpp...
-compiling stm32f10x_i2c_oop.cpp...
-compiling stm32f10x_exti_oop.cpp...
-compiling misc_oop.cpp...
-compiling MPU6050_oop.cpp...
-compiling MPU6050.c...
-MPU6050\MPU6050.h(405): warning:  #1295-D: Deprecated declaration MPU6050_Initialize - give arg types
-  void MPU6050_Initialize();
-MPU6050\MPU6050.h(406): warning:  #1295-D: Deprecated declaration MPU6050_TestConnection - give arg types
-  bool MPU6050_TestConnection();
-MPU6050\MPU6050.h(409): warning:  #1295-D: Deprecated declaration MPU6050_GetFullScaleGyroRange - give arg types
-  uint8_t MPU6050_GetFullScaleGyroRange();
-MPU6050\MPU6050.h(412): warning:  #1295-D: Deprecated declaration MPU6050_GetFullScaleAccelRange - give arg types
-  uint8_t MPU6050_GetFullScaleAccelRange();
-MPU6050\MPU6050.h(416): warning:  #1295-D: Deprecated declaration MPU6050_GetSleepModeStatus - give arg types
-  bool MPU6050_GetSleepModeStatus();
-MPU6050\MPU6050.h(420): warning:  #1295-D: Deprecated declaration MPU6050_GetDeviceID - give arg types
-  uint8_t MPU6050_GetDeviceID();
-MPU6050\MPU6050.h(429): warning:  #1295-D: Deprecated declaration MPU6050_I2C_Init - give arg types
-  void MPU6050_I2C_Init();
-MPU6050\MPU6050.c: 7 warnings, 0 errors
-compiling Kalman.c...
-compiling HMC5883L.c...
-HMC5883l\HMC5883L.h(105): warning:  #1295-D: Deprecated declaration HMC5883L_Initialize - give arg types
-  void HMC5883L_Initialize();
-HMC5883l\HMC5883L.h(106): warning:  #1295-D: Deprecated declaration HMC5883L_TestConnection - give arg types
-  bool HMC5883L_TestConnection();
-HMC5883l\HMC5883L.h(109): warning:  #1295-D: Deprecated declaration HMC5883L_GetSampleAveraging - give arg types
-  uint8_t HMC5883L_GetSampleAveraging();
-HMC5883l\HMC5883L.h(111): warning:  #1295-D: Deprecated declaration HMC5883L_GetDataRate - give arg types
-  uint8_t HMC5883L_GetDataRate();
-HMC5883l\HMC5883L.h(113): warning:  #1295-D: Deprecated declaration HMC5883L_GetMeasurementBias - give arg types
-  uint8_t HMC5883L_GetMeasurementBias();
-HMC5883l\HMC5883L.h(117): warning:  #1295-D: Deprecated declaration HMC5883L_GetGain - give arg types
-  uint8_t HMC5883L_GetGain();
-HMC5883l\HMC5883L.h(121): warning:  #1295-D: Deprecated declaration HMC5883L_GetMode - give arg types
-  uint8_t HMC5883L_GetMode();
-HMC5883l\HMC5883L.h(127): warning:  #1295-D: Deprecated declaration HMC5883L_GetLockStatus - give arg types
-  bool HMC5883L_GetLockStatus();
-HMC5883l\HMC5883L.h(128): warning:  #1295-D: Deprecated declaration HMC5883L_GetReadyStatus - give arg types
-  bool HMC5883L_GetReadyStatus();
-HMC5883l\HMC5883L.h(135): warning:  #1295-D: Deprecated declaration HMC5883L_I2C_Init - give arg types
-  void HMC5883L_I2C_Init();
-HMC5883l\HMC5883L.c: 10 warnings, 0 errors
+compiling RF24_HAL.cpp...
+compiling stm32f10x_usart.c...
+compiling stm32f10x_spi.c...
+compiling RF24.cpp...
+compiling uart.cpp...
+compiling Function.cpp...
+compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=18740 RO-data=444 RW-data=120 ZI-data=1632  
-".\Objects\Stm32f103c8.axf" - 0 Error(s), 21 Warning(s).
+Program Size: Code=4004 RO-data=268 RW-data=40 ZI-data=1632  
+".\Objects\Stm32f103c8.axf" - 0 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.2.0.pack
+                Keil.STM32F1xx_DFP.2.2.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_Target_1
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
