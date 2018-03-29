@@ -189,3 +189,25 @@ void Initialize()
 	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &PORT);
 }
+
+NotiStatus GetStatus(uint8_t data_recv, uint8_t index)
+{
+	uint8_t result = 0x00;
+	result |= (data_recv >> (index - 1)) & (0x01);
+	result |= (data_recv >> (index + 2)) & (0x02);
+	if (result == 0x01) return Active;
+	else if (result == 0x02) return Preview;
+	else if (result == 0x00) return None;
+	return None;
+}
+
+void LedStatusOnOff(NotiStatus stt)
+{
+	// Led Red = GPIO Pin 12
+	// Led Yellow = GPIO Pin 1
+	// Led Green = GPIO Pin 0
+	GPIO_SetBits(GPIOA, LED_ACTIVE | LED_NONE | LED_PREVIEW);
+	if (stt == Active) GPIO_ResetBits(LED_PORT, LED_ACTIVE);
+	else if (stt == Preview) GPIO_ResetBits(LED_PORT, LED_PREVIEW);
+	else if (stt == None) GPIO_ResetBits(LED_PORT, LED_NONE);
+}

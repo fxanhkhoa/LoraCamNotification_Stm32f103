@@ -11,6 +11,8 @@
 #define DEMO_RX_SINGLE_ESB  0 // Single address receiver with Enhanced ShockBurst (1 pipe)
 #define DEMO_TX_SINGLE_ESB  0 // Single address transmitter with Enhanced ShockBurst (1 pipe)
 
+#define Cam_Index 1 // Number of cam
+
 uint32_t timer,time_now;
 // Buffer to store a payload of maximum width
 // Transmit result
@@ -25,6 +27,8 @@ uint8_t payload_length;
 int flag_got_data = 0;
 // data store
 uint8_t data_buf[2];
+// Cam Led Status
+int CamStatus;
 
 int main()
 {
@@ -68,6 +72,8 @@ int main()
 			UART_SendStr(" PAYLOAD:>");
 			UART_SendBuf((char *)nRF24_payload, payload_length);
 			UART_SendStr("<\r\n");
+			CamStatus = GetStatus(nRF24_payload, Cam_Index);
+			LedStatusOnOff(CamStatus);
     	}
     }
 		#endif
