@@ -3,13 +3,17 @@
 // Define what part of demo will be compiled:
 //   0 : disable
 //   1 : enable
-#define DEMO_RX_SINGLE      0 // Single address receiver (1 pipe)
+#define DEMO_RX_SINGLE      1 // Single address receiver (1 pipe)
 #define DEMO_RX_MULTI       0 // Multiple address receiver (3 pipes)
 #define DEMO_RX_SOLAR       0 // Solar temperature sensor receiver
-#define DEMO_TX_SINGLE      1 // Single address transmitter (1 pipe)
+#define DEMO_TX_SINGLE      0 // Single address transmitter (1 pipe)
 #define DEMO_TX_MULTI       0 // Multiple address transmitter (3 pipes)
 #define DEMO_RX_SINGLE_ESB  0 // Single address receiver with Enhanced ShockBurst (1 pipe)
 #define DEMO_TX_SINGLE_ESB  0 // Single address transmitter with Enhanced ShockBurst (1 pipe)
+
+#if ((DEMO_RX_SINGLE + DEMO_RX_MULTI + DEMO_RX_SOLAR + DEMO_TX_SINGLE + DEMO_TX_MULTI + DEMO_RX_SINGLE_ESB + DEMO_TX_SINGLE_ESB) != 1)
+#error "Define only one DEMO_xx, use the '1' value"
+#endif
 
 #define Cam_Index 1 // Number of cam
 
@@ -26,9 +30,9 @@ uint8_t payload_length;
 // flag of uart interrupt got data
 int flag_got_data = 0;
 // data store
-uint8_t data_buf[2];
+uint8_t data_buf[2] = "";
 // Cam Led Status
-int CamStatus;
+NotiStatus CamStatus;
 
 int main()
 {
@@ -37,18 +41,62 @@ int main()
 	Initialize();
 	
 	#if (DEMO_TX_SINGLE)
+		// This is simple transmitter (to one logic address):
+	//   - TX address: '0xE7 0x1C 0xE3'
+	//   - payload: 5 bytes
+	//   - RF channel: 115 (2515MHz)
+	//   - data rate: 250kbps (minimum possible, to increase reception reliability)
+	//   - CRC scheme: 2 byte
+
+    // The transmitter sends a 5-byte packets to the address '0xE7 0x1C 0xE3' without Auto-ACK (ShockBurst disabled)
+
+    // Disable ShockBurst for all RX pipes
+    nRF24_DisableAA(0xFF);
+
+    // Set RF channel
+    nRF24_SetRFChannel(115);
+
+    // Set data rate
+    nRF24_SetDataRate(nRF24_DR_250kbps);
+
+    // Set CRC scheme
+    nRF24_SetCRCScheme(nRF24_CRC_2byte);
+
+    // Set address width, its common for all pipes (RX and TX)
+    nRF24_SetAddrWidth(3);
+
+    // Configure TX PIPE
+    static const uint8_t nRF24_ADDR[] = { 0xE7, 0x1C, 0xE3 };
+    nRF24_SetAddr(nRF24_PIPETX, nRF24_ADDR); // program TX address
+
+    // Set TX power (maximum)
+    nRF24_SetTXPower(nRF24_TXPWR_0dBm);
+
+    // Set operational mode (PTX == transmitter)
+    nRF24_SetOperationalMode(nRF24_MODE_TX);
+
+    // Clear any pending IRQ flags
+    nRF24_ClearIRQFlags();
+
+    // Wake the transceiver
+    nRF24_SetPowerMode(nRF24_PWR_UP);
+
 		while (1)
 		{
-			if (flag_got_data == 1) 
+			if (flag_got_data) 
 			{
+				led_toggle();
 				TX_result = nRF24_TransmitPacket(data_buf, 1);
 				UART_SendInt(TX_result);
+				data_buf[0] = '\0';
+				flag_got_data = 0;
 			}
 		}
 	#endif
 	
 	#if (DEMO_RX_SINGLE)
 		Simple_Receive_Init();
+		UART_SendStr("receive init");
 	// The main loop
     while (1) 
 		{
@@ -74,6 +122,7 @@ int main()
 			UART_SendStr("<\r\n");
 			CamStatus = GetStatus(nRF24_payload, Cam_Index);
 			LedStatusOnOff(CamStatus);
+					UART_SendInt(CamStatus);
     	}
     }
 		#endif
@@ -94,9 +143,9 @@ extern "C" void USART1_IRQHandler(void)
     /* RXNE handler */
     if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
     {
-			data_buf[0] = '\0';
 			data_buf[0] = USART_ReceiveData(USART1);
 			flag_got_data = 1;
+			UART_SendBuf((char *)data_buf, 1);
     }
      
     /* ------------------------------------------------------------ */

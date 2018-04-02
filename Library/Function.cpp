@@ -109,7 +109,7 @@ void Simple_Receive_Init()
     // Configure RX PIPE#1
     static const uint8_t nRF24_ADDR[] = { 0xE7, 0x1C, 0xE3 };
     nRF24_SetAddr(nRF24_PIPE1, nRF24_ADDR); // program address for RX pipe #1
-    nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_OFF, 5); // Auto-ACK: disabled, payload length: 5 bytes
+    nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_OFF, 1); // Auto-ACK: disabled, payload length: 5 bytes
 
     // Set operational mode (PRX == receiver)
     nRF24_SetOperationalMode(nRF24_MODE_RX);
@@ -134,7 +134,7 @@ void Initialize()
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
 
 
-    // Configure nRF24 IRQ pin
+  // Configure nRF24 IRQ pin
 	PORT.GPIO_Mode  = GPIO_Mode_Out_PP;
 	PORT.GPIO_Speed = GPIO_Speed_2MHz;
 	PORT.GPIO_Pin   = nRF24_IRQ_PIN;
@@ -178,23 +178,25 @@ void Initialize()
   // Initialize the nRF24L01 to its default state
   nRF24_Init();
 		
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	// Configure GPIO for LED (PC14, PC15, PA12, PA0, PA1)
 	PORT.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_12;
 	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
 	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &PORT);
-		
-	PORT.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;
+	
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+	PORT.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
 	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
 	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &PORT);
 }
 
-NotiStatus GetStatus(uint8_t data_recv, uint8_t index)
+NotiStatus GetStatus(uint8_t data_recv[], uint8_t index)
 {
 	uint8_t result = 0x00;
-	result |= (data_recv >> (index - 1)) & (0x01);
-	result |= (data_recv >> (index + 2)) & (0x02);
+	result |= (data_recv[0] >> (index - 1)) & (0x01);
+	result |= (data_recv[0] >> (index + 2)) & (0x02);
 	if (result == 0x01) return Active;
 	else if (result == 0x02) return Preview;
 	else if (result == 0x00) return None;
@@ -211,3 +213,20 @@ void LedStatusOnOff(NotiStatus stt)
 	else if (stt == Preview) GPIO_ResetBits(LED_PORT, LED_PREVIEW);
 	else if (stt == None) GPIO_ResetBits(LED_PORT, LED_NONE);
 }
+
+void led_toggle(void)
+		{
+				/* Read LED output (GPIOA PIN8) status */
+				uint8_t led_bit = GPIO_ReadOutputDataBit(GPIOC, GPIO_Pin_13);
+			 
+				/* If LED output set, clear it */
+				if(led_bit == (uint8_t)Bit_SET)
+				{
+						GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+				}
+				/* If LED output clear, set it */
+				else
+				{
+						GPIO_SetBits(GPIOC, GPIO_Pin_13);
+				}
+		}

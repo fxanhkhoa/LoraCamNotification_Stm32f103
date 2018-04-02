@@ -36,8 +36,9 @@ void Timer_Init();
 void Initialize();
 nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length);
 void Simple_Receive_Init();
-NotiStatus GetStatus(uint8_t data_recv, uint8_t index);
-void LedStatusOnOff(NotiStatus stt, uint8_t index);
+NotiStatus GetStatus(uint8_t data_recv[], uint8_t index);
+void LedStatusOnOff(NotiStatus stt);
+void led_toggle(void);
 
 #ifdef __cplusplus
 }
